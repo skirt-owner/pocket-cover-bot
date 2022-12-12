@@ -5,6 +5,8 @@ import logging
 from aiogram import Bot, Dispatcher, types
 
 from bot.config import TELEGRAM_TOKEN
+from bot.handlers import register_handlers
+from bot.filters import bind_filters
 
 
 log = logging.getLogger(__name__)
@@ -24,7 +26,8 @@ async def handler(event, context):
     if event['httpMethod'] == 'POST':
         bot = Bot(TELEGRAM_TOKEN)
         dp = Dispatcher(bot)
-        # await register_handlers(dp)
+        await register_handlers(dp)
+        await bind_filters(dp)
         await process_event(event, dp)
 
         return {'statusCode': 200, 'body': 'ok'}
